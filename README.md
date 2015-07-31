@@ -36,6 +36,3 @@ bundle exec rails c
   app/assets/javascripts/graph.jsに実装があるので適宜参照ください。
 
 各データベースを直接参照したい場合、railsのコンソールより、各app/models/以下のクラス（ActiveRecordというO/Rマッパーによるものです）のメソッド（適宜参照をお願いします）を叩く事ができます。
-
-提出にあたって、実際に動いている画像を添付します。
-  また、動かない・質問等あれば、yuta@piersky.comまでご連絡ください。
