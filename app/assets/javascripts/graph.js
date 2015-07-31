@@ -1,31 +1,64 @@
 $(function(){
-  // create an array with nodes
-  var nodes = new vis.DataSet([
-    {id: 1, label: 'Node 1'},
-    {id: 2, label: 'Node 2'},
-    {id: 3, label: 'Node 3'},
-    {id: 4, label: 'Node 4'},
-    {id: 5, label: 'Node 5'}
-  ]);
+  $.ajax({
+    url: "http://localhost:3000/data"
+  }).done(function(res) {
+    var COMPANY_OFFSET = 100000;
 
-  // create an array with edges
-  var edges = new vis.DataSet([
-    {from: 1, to: 3},
-    {from: 1, to: 2},
-    {from: 2, to: 4},
-    {from: 2, to: 5}
-  ]);
+    var ary = [];
+    res.people.forEach(function(person){
+      ary.push({id: person.id, group: 'person', label: person.name})
+    })
+    res.organizations.forEach(function(organization){
+      ary.push({id: organization.id + COMPANY_OFFSET, group: 'organization', label: organization.name})
+    })
 
-  // create a network
-  var container = document.getElementById('graph');
+    // create an array with nodes
+    var nodes = new vis.DataSet(ary);
 
-  // provide the data in the vis format
-  var data = {
-    nodes: nodes,
-    edges: edges
-  };
-  var options = {};
+    ary = [];
+    res.acquisitions.forEach(function(acquisition){
+      ary.push({
+        from: acquisition.parent_id + COMPANY_OFFSET,
+        to: acquisition.child_id + COMPANY_OFFSET,
+        color: 'red',
+        label: 'acquired by $' + acquisition.amount,
+        arrows: 'to'
+      })
+    })
+    res.joins.forEach(function(join){
+      ary.push({
+        from: join.person_id,
+        to: join.company_id + COMPANY_OFFSET,
+        color: 'blue',
+        label: 'joined',
+        arrows: 'to'
+      })
+    })
+    res.investments.forEach(function(investment){
+      ary.push({
+        from: investment.investor_type === 'Organization' ? investment.investor_id + COMPANY_OFFSET : investment.investor_id,
+        to: investment.investee_id + COMPANY_OFFSET,
+        color: 'green',
+        label: 'invested $' + investment.amount,
+        arrows: 'to'
+      })
+    })
 
-  // initialize your network!
-  var network = new vis.Network(container, data, options);
+    // create an array with edges
+    var edges = new vis.DataSet(ary);
+
+    // create a network
+    var container = document.getElementById('graph');
+
+    // provide the data in the vis format
+    var data = {
+      nodes: nodes,
+      edges: edges
+    };
+    var options = {};
+
+    // initialize your network!
+    var network = new vis.Network(container, data, options);
+  });
+
 });
