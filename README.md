@@ -13,6 +13,9 @@ bundle install
 bundle exec rake db:build
 bundle exec rails s
 ```
+と実行すると、localhost:3000にてこのアプリケーションを動かすことが出来ます。
+  接続すると、グラフが表示されます。
+
 db/seeds.rbにてデータの読み込みを行っています。
   本来であればwebアプリケーションなのでデータの追加をGUIで出来ればよいのですが、労力が大変なので、データを追加する場合もスクリプトまたは
 ```
