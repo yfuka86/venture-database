@@ -9,7 +9,7 @@ c1.save!
 p2 = Person.new(name: 'Larry Page')
 p2.save!
 
-p2.join!(p1)
+p2.join!(c1)
 
 p1.invest!(c1, 100000)
 

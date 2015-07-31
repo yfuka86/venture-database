@@ -3,4 +3,11 @@
 
 require File.expand_path('../config/application', __FILE__)
 
+namespace :db do
+  desc "build database (drop and create, migrate, seed)"
+  task :build => [:drop, :create, :migrate, :seed] do |t|
+  end
+end
+
+
 Rails.application.load_tasks

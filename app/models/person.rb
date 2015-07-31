@@ -1,9 +1,8 @@
 class Person < ActiveRecord::Base
-  has_many :join
-  has_many :investment, class_name: 'Investment', foreign_key: :investor_id
+  has_many :joins
+  has_many :investments, class_name: 'Investment', foreign_key: :investor_id, as: :investor
 
-  has_many :employers, through: :join, class_name: 'Organization'
-  has_many :invested_companies, through: :investment, class_name: 'Investment', source: :investee, source_type: "Organization"
+  has_many :employers, through: :joins, class_name: 'Organization', source: :company
 
   def join!(company)
     Join.new(person: self, company: company).save!
@@ -11,5 +10,9 @@ class Person < ActiveRecord::Base
 
   def invest!(company, amount)
     Investment.new(investor: self, investee: company, amount: amount).save!
+  end
+
+  def invested_companies
+    Organization.where(id: investments.pluck(:investee_id))
   end
 end

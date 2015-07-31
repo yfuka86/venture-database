@@ -26,7 +26,6 @@ ActiveRecord::Schema.define(version: 20150731061430) do
     t.integer  "investor_id",   limit: 4
     t.string   "investor_type", limit: 255
     t.integer  "investee_id",   limit: 4
-    t.string   "investee_type", limit: 255
     t.datetime "created_at",                null: false
     t.datetime "updated_at",                null: false
   end
