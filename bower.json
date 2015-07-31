@@ -1,0 +1,6 @@
+{
+  "name": "venture-database",
+  "dependencies": {
+    "vis": "4.7.0"
+  }
+}
